@@ -23,6 +23,8 @@
     "windicss": "^2.5.14"
   },
   "dependencies": {
-    "@prefresh/vite": "^2.2.1"
+    "@prefresh/vite": "^2.2.1",
+    "axios": "^0.21.1",
+    "svelte-routing": "^1.6.0"
   }
 }

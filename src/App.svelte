@@ -6,6 +6,7 @@ import Signup from './lib/Signup.svelte';
 import Login from './lib/Login.svelte';
 import Profile from './lib/Profile.svelte';
 export let url = '';
+
 </script>
 
 <Router url="{url}">
