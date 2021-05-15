@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from 'express'
 export function exampleMiddleware() { }
 
 export async function isAuth(req: Request, res: Response, next: NextFunction) {
-    const token = req.cookies[process.env.AUTH_COOKIE_NAME];
-    if (!token) res.status(401).json({ success: false });
+    const token = req.cookies["Bearer"];
+    if (!token) return res.status(401).json({ success: false, error: 'token notfound', });
 
     const authUser = await parseSecureToken(token);
-    if (!authUser) res.status(401).json({ success: false });
+    if (!authUser) return res.status(401).json({ success: false, error: 'token invalid', });
 
     req.user = authUser.userId;
     next();
