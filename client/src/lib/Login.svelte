@@ -1,50 +1,27 @@
 <script lang="ts">
 import { Router, Link, Route, navigate } from 'svelte-routing';
-let username, password, error;
-let response = null;
-let promise = Promise.resolve([]);
-let disabled = false;
-let continents;
 
 const baseUrl = 'http://localhost:3030';
+let resp;
 
-// const submit = async () => {
-//   try {
-//     const hoge = await fetch(baseUrl + '/auth/login', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({
-//         username: username,
-//         password: password,
-//       }),
-//     });
-
-//     response = hoge.body.getReader();
-
-//     console.log(hoge);
-//   } catch (err) {
-//     console.log(err);
-//     error = err.message;
-//   }
-// };
-
-const fetchData = async () => {
-  await fetch(baseUrl + '/auth/test')
-    .then(r => r.json())
-    .then(data => {
-      continents = data;
-    });
-};
-
-const handleClick = () => {
-  promise = fetchData();
-  console.log(promise);
-  disabled = true;
+const fetchImage = async () => {
+  const response = await fetch(baseUrl + '/auth/test');
+  resp = response.json();
 };
 
 </script>
 
-<div>
+<button on:click="{fetchImage}">Login</button>
+
+{#await resp}
+  <p>...waiting</p>
+{:then data}
+  <p>{JSON.stringify(data)}</p>
+{:catch error}
+  <p>An error occurred!</p>
+{/await}
+
+<!-- <div>
   <Link to="/">Home</Link>
   <Link to="/signup">Signup</Link>
   <Link to="/login">Login</Link>
@@ -66,4 +43,4 @@ const handleClick = () => {
   {/each}
 {:catch error}
   <p style="color: red">{error.message}</p>
-{/await}
+{/await} -->
