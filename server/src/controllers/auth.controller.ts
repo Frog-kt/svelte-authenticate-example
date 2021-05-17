@@ -15,8 +15,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   if (username == user.username && password == user.password) {
     // トークンの生成
     console.log('create Token!')
-    // await sendTokenResponse(user.id, res)
-    res.status(200).json({ text: 'hello' })
+    await sendTokenResponse(user.id, res)
+    // res.status(200).json({ text: 'hello' })
   } else {
     res.status(401).json({ error: 'Invalid username or password' })
   }
