@@ -1,27 +1,25 @@
 <script lang="ts">
 import { Router, Link, Route, navigate } from 'svelte-routing';
+let username, password, error, promise;
 
 const baseUrl = 'http://localhost:3030';
-let resp;
 
-const fetchImage = async () => {
-  const response = await fetch(baseUrl + '/auth/test');
-  resp = response.json();
+const login = async () => {
+  const response = await fetch(baseUrl + '/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  });
+
+  promise = await response.json();
 };
 
 </script>
 
-<button on:click="{fetchImage}">Login</button>
-
-{#await resp}
-  <p>...waiting</p>
-{:then data}
-  <p>{JSON.stringify(data)}</p>
-{:catch error}
-  <p>An error occurred!</p>
-{/await}
-
-<!-- <div>
+<div>
   <Link to="/">Home</Link>
   <Link to="/signup">Signup</Link>
   <Link to="/login">Login</Link>
@@ -31,7 +29,7 @@ const fetchImage = async () => {
 <div class="w-200">
   <input type="text" bind:value="{username}" class="border-1px" placeholder="username" />
   <input type="password" bind:value="{password}" class="border-1px" placeholder="password" />
-  <button on:click="{handleClick}" disabled="{disabled}">Login</button>
+  <button on:click="{login}">Login</button>
 </div>
 
 {#await promise}
@@ -43,4 +41,4 @@ const fetchImage = async () => {
   {/each}
 {:catch error}
   <p style="color: red">{error.message}</p>
-{/await} -->
+{/await}
