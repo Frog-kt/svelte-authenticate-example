@@ -14,6 +14,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
   if (username == user.username && password == user.password) {
     // トークンの生成
+    console.log("create Token!")
     sendTokenResponse(user.id, res);
   } else {
     res.status(401).json({ error: "Invalid username or password" })
