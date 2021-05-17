@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Router, Link, Route } from 'svelte-routing';
+import { Router, Link, Route } from 'svelte-routing';
+
 </script>
 
 <div>
