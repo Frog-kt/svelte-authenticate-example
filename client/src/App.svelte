@@ -21,10 +21,4 @@ export let url = '';
     <Route path="/profile"><Profile /></Route>
     <Route>not found</Route>
   </div>
-  <div>
-    <Link to="/">Home</Link>
-    <Link to="/signup">Signup</Link>
-    <Link to="/login">Login</Link>
-    <Link to="/profile">Profile</Link>
-  </div>
 </Router>
