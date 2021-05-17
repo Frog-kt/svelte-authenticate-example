@@ -34,11 +34,8 @@ const login = async () => {
 
 {#await promise}
   <p>...waiting</p>
-{:then users}
-  {#each users as { login, url } (login)}
-    <h3>{login}</h3>
-    <img height="100" src="{genericAvatar}" alt="{login}" use:fetchAvatar="{url}" />
-  {/each}
+{:then data}
+  <p>{JSON.stringify(data)}</p>
 {:catch error}
   <p style="color: red">{error.message}</p>
 {/await}
