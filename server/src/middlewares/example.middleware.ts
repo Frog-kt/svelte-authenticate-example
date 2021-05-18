@@ -1,7 +1,7 @@
-import { parseSecureToken } from '../libs/auth';
+import { parseSecureToken } from '../libs/auth'
 import { Request, Response, NextFunction } from 'express'
 
-export function exampleMiddleware() { }
+export function exampleMiddleware() {}
 
 export async function isAuth(req: Request, res: Response, next: NextFunction) {
     const token = req.cookies["Bearer"];
@@ -10,6 +10,6 @@ export async function isAuth(req: Request, res: Response, next: NextFunction) {
     const authUser = await parseSecureToken(token);
     if (!authUser) return res.status(401).json({ success: false, error: 'token invalid', });
 
-    req.user = authUser.userId;
-    next();
+  req.user = authUser.userId
+  next()
 }

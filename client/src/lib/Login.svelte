@@ -1,37 +1,42 @@
 <script lang="ts">
-let password = '';
-let email = '';
-let error;
+import { Router, Link, Route, navigate } from 'svelte-routing';
+let username, password, error, promise;
 
-const handleLogin = async () => {
-  const response = await fetch('/login', {
+const baseUrl = 'http://localhost:3030';
+
+const login = async () => {
+  const response = await fetch(baseUrl + '/auth/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
   });
+
+  promise = await response.json();
 };
 
 </script>
 
 <div>
-  <h1>Login</h1>
+  <Link to="/">Home</Link>
+  <Link to="/signup">Signup</Link>
+  <Link to="/login">Login</Link>
+  <Link to="/profile">Profile</Link>
+</div>
+<h1>Login</h1>
+<div class="w-200">
+  <input type="text" bind:value="{username}" class="border-1px" placeholder="username" />
+  <input type="password" bind:value="{password}" class="border-1px" placeholder="password" />
+  <button on:click="{login}">Login</button>
 </div>
 
-<form on:submit|preventDefault="{handleLogin}" method="post">
-  <label>
-    Email:
-    <input type="email" bind:value="{email}" />
-  </label>
-  <label>
-    Password:
-    <input type="password" bind:value="{password}" />
-  </label>
-  <button type="submit">Login</button>
-</form>
-
-{#if error}
-  <p>{error}</p>
-{/if}
+{#await promise}
+  <p>...waiting</p>
+{:then data}
+  <p>{JSON.stringify(data)}</p>
+{:catch error}
+  <p style="color: red">{error.message}</p>
+{/await}
