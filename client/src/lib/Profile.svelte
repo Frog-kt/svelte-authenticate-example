@@ -1,33 +1,27 @@
 <script lang="ts">
-let error;
-let resp;
-
 const baseUrl = 'http://localhost:3030';
-const submit = async () => {
-  try {
-    resp = await fetch(baseUrl + '/auth/me', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (err) {
-    console.log(err);
-    error = err.message;
-  }
-};
+let promise;
 
-submit();
+const login = async () => {
+  const response = await fetch(baseUrl + '/auth/me', {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  return await response.json();
+};
 
 </script>
 
 <div>
   <h1>Profile</h1>
   <p>
-    {(() => {
-      JSON.stringify(resp);
-    })()}
+    {#await login()}
+      <p>...waiting</p>
+    {:then data}
+      <p>{JSON.stringify(data)}</p>
+    {:catch error}
+      <p style="color: red">{error.message}</p>
+    {/await}
   </p>
 </div>
-
-{#if error}
-  <p>{error}</p>
-{/if}
